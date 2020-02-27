@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseEntity : MonoBehaviour {
-    public int maxHealth;
+    public float maxHealth;
+    public float currentHealth;
     public Health health { get; set; }
-    public RandomBlinker blinker;
+    public RandomBlinker blinker { get; private set; }
 
     [SerializeField]
     private GameObject explosionPrefab;
 
     private void Start() {
-        bool hasBlinker = false;
-        if(TryGetComponent(out RandomBlinker blinker)) {
-            this.blinker = blinker;
-            hasBlinker = true;
-        }
-        health = new Health(maxHealth, Die, Blink, hasBlinker);
+        blinker = gameObject.AddComponent<RandomBlinker>();
+        bool hasBlinker = true;
+        health = new Health(maxHealth, Die, blinker.Blink, hasBlinker);
     }
 
     private void Die() {
@@ -24,7 +22,7 @@ public class BaseEntity : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private void Blink() {
-        blinker.Blink();
+    private void Update() {
+        currentHealth = health.currentHealth;
     }
 }
