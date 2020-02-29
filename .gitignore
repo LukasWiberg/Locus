@@ -62,3 +62,5 @@ crashlytics-build.properties
 ShootEjectReload/Temp/
 
 ShootEjectReload/Library/
+
+ShootEjectReload/obj/Debug/
